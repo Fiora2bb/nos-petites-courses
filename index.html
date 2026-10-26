@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ef">
+
+  <title>Nos petites courses</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="app">
+    <header class="header">
+      <p class="eyebrow">NOTRE PETIT QUOTIDIEN</p>
+      <h1>Nos petites courses</h1>
+      <p class="subtitle">N'oublions rien ❤️</p>
+    </header>
+
+    <form id="form-course">
+      <label for="nom-article">Nouvel article</label>
+
+      <input
+        id="nom-article"
+        type="text"
+        placeholder="Ex. : lait, pâtes..."
+        maxlength="80"
+        required
+      >
+
+      <label for="categorie">Catégorie</label>
+
+      <select id="categorie">
+        <option value="Fruits et légumes">Fruits et légumes</option>
+        <option value="Frais">Frais</option>
+        <option value="Épicerie">Épicerie</option>
+        <option value="Boissons">Boissons</option>
+        <option value="Entretien">Entretien</option>
+        <option value="Autre">Autre</option>
+      </select>
+
+      <button type="submit">+ Ajouter à la liste</button>
+    </form>
+
+    <section aria-labelledby="titre-liste">
+      <h2 id="titre-liste">Notre liste</h2>
+      <p id="compteur">0 article</p>
+      <div id="liste-courses"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
