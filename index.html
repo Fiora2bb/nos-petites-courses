@@ -51,6 +51,17 @@
     </section>
   </main>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(() => console.log("Application prête !"))
+        .catch(erreur => console.error(
+          "Erreur du service worker :", erreur
+        ));
+    });
+  }
+</script>
 </body>
 </html>
