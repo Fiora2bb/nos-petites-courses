@@ -1,16 +1,28 @@
+
 const formulaire = document.querySelector("#form-course");
 const champArticle = document.querySelector("#nom-article");
 const champCategorie = document.querySelector("#categorie");
 const listeCourses = document.querySelector("#liste-courses");
 const compteur = document.querySelector("#compteur");
 
-// Pour commencer, les articles sont conservés en mémoire.
-let articles = [];
+// Charger les articles sauvegardés dans le navigateur.
+let articles = JSON.parse(
+  localStorage.getItem("mes-petites-courses") || "[]"
+);
+
+function sauvegarderArticles() {
+  localStorage.setItem(
+    "mes-petites-courses",
+    JSON.stringify(articles)
+  );
+}
 
 function afficherArticles() {
   listeCourses.replaceChildren();
 
-  const categories = [...new Set(articles.map(article => article.categorie))];
+  const categories = [
+    ...new Set(articles.map(article => article.categorie))
+  ];
 
   categories.forEach(categorie => {
     const titre = document.createElement("h3");
@@ -23,7 +35,10 @@ function afficherArticles() {
       .forEach(article => {
         const ligne = document.createElement("div");
         ligne.className = "article";
-        if (article.achete) ligne.classList.add("coche");
+
+        if (article.achete) {
+          ligne.classList.add("coche");
+        }
 
         const caseCoche = document.createElement("input");
         caseCoche.type = "checkbox";
@@ -35,6 +50,7 @@ function afficherArticles() {
 
         caseCoche.addEventListener("change", () => {
           article.achete = caseCoche.checked;
+          sauvegarderArticles();
           afficherArticles();
         });
 
@@ -52,7 +68,10 @@ function afficherArticles() {
         );
 
         boutonSupprimer.addEventListener("click", () => {
-          articles = articles.filter(element => element.id !== article.id);
+          articles = articles.filter(
+            element => element.id !== article.id
+          );
+          sauvegarderArticles();
           afficherArticles();
         });
 
@@ -62,10 +81,13 @@ function afficherArticles() {
   });
 
   const total = articles.length;
-  const restants = articles.filter(article => !article.achete).length;
+  const restants = articles.filter(
+    article => !article.achete
+  ).length;
 
   compteur.textContent =
-    `${total} article${total !== 1 ? "s" : ""} · ${restants} restant${restants !== 1 ? "s" : ""}`;
+    `${total} article${total !== 1 ? "s" : ""} · ` +
+    `${restants} restant${restants !== 1 ? "s" : ""}`;
 }
 
 formulaire.addEventListener("submit", evenement => {
@@ -81,6 +103,8 @@ formulaire.addEventListener("submit", evenement => {
     achete: false
   });
 
+  sauvegarderArticles();
+
   champArticle.value = "";
   champArticle.focus();
 
@@ -88,3 +112,4 @@ formulaire.addEventListener("submit", evenement => {
 });
 
 afficherArticles();
+
